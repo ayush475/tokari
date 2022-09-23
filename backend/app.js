@@ -6,7 +6,7 @@ app.use(express.json());
 
 //import all routes
 const products =require('./routes/product');
-app.use('/',products);
+app.use('/api/v1',products);
 
 // app.get('/',(req,res)=>{
 // res.json({mm:"kkkk"});
