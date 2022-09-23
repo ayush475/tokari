@@ -1,13 +1,8 @@
-const app =require('./app')
+var express = require('express');
+var app = express();
+var PORT = 4000;
 
-
-const  dotenv =require('dotenv')
-const { model } = require('mongoose')
-
-//setting up config 
-dotenv.config({path :'backend/config/config.env'})
-app.listen(process.env.PORT, () =>{
-    console.log(`Server is listening on port ${process.env.PORT}`);
-
-    
+app.listen(PORT, function(err){
+	if (err) console.log("Error in server setup")
+	console.log("Server listening on Port", PORT);
 })

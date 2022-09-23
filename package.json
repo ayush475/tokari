@@ -1,22 +1,18 @@
 {
-  "name": "proof",
+  "name": "shop",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"node / backend/server.js", 
-    "dev" :"set NODE_ENV =DEVELOPMENT && nodemon  backend/server",
-    "prod" :"set NODE_ENV =PRODUCTION && nodemon  backend/server"
-    
+    "start": "node backend/server.js",
+    "dev": "set node_env=DEVELOPMENT & nodemon backend/server",
+    "prod":"set node_env=PRODUCTION & nodemon backend/server"
   },
-  "author": "ayush",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "mongoose": "^6.6.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.20"
   }
 }
