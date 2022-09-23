@@ -1,5 +1,5 @@
-var express = require('express');
-var app = express();
+
+var app = require('./app');
 var PORT = 4000;
 
 app.listen(PORT, function(err){
