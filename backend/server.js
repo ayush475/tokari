@@ -1,7 +1,6 @@
 var app = require('./app');
-var PORT = 4000;
 
-app.listen(PORT, function(err){
+app.listen(process.env.PORT, function(err){
 	if (err) console.log("Error in server setup")
-	console.log("Server listening on Port", PORT);
+	console.log("Server listening on Port",process.env.PORT);
 })

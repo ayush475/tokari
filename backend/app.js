@@ -1,8 +1,14 @@
-const express = require('express')
+const express = require('express');
+const connectDatabase = require('./config/connectDatabase');
 const app = express();
+const dotenv=require('dotenv');
+
+//configuring enviroment variables
+dotenv.config({path:'./backend/config/config.env'});
 
 app.use(express.json());
 // console.log("app");
+connectDatabase();
 
 //import all routes
 const products =require('./routes/product');
