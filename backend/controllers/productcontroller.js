@@ -1,9 +1,9 @@
 //const product = require('../models/product');
-const product =require('../models/product')
+const Product =require('../models/product')
 
 //create new products and test in api
 exports.newproduct = async(req,res,next)=>{
-    const product =await product.create(req.body)
+    const product =await Product.create(req.body)
     res.status(201).json({
         success:true,
         product

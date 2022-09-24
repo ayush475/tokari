@@ -56,7 +56,7 @@ const productSchema = new mongoose.Schema({
     },
     seller: {
         type: String,
-        required: [true, 'Please enter product seller']
+        // required: [true, 'Please enter product seller']
     },
     stock: {
         type: Number,
@@ -92,7 +92,7 @@ const productSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
-        required: true
+        // required: true
     },
     createdAt: {
         type: Date,
@@ -100,4 +100,4 @@ const productSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('product', productSchema);
+module.exports = mongoose.model('Product', productSchema);
