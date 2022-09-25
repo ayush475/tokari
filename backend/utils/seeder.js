@@ -7,6 +7,9 @@ dotenv.config({
     path:'backend/config/config.env'
 });
 connectDatabase();
+//maybe this needs to be changed later
+//might consider changing
+// if things doesn't  work according 
 
 const seedProducts = async () =>{
     try{
@@ -15,12 +18,11 @@ const seedProducts = async () =>{
         await product.insertMany(products);
         console.log(' test 2 ok')
         process.exit();
-
-
-         
-    }
-    catch(error){console.error(error.message);
+ }
+    catch(error){
+        console.error(error.message);
     process.exit();
+    }
 }
-}
+
 seedProducts();
