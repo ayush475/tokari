@@ -74,3 +74,26 @@ exports.getSingleProduct = async(req,res ,next)=>{
     })
   //}
 }
+//now to update products from admin 
+//this might need to be updated later
+//generic features of e-commerce websites
+exports.updateProduct = async (req,res ,next) =>{
+ let product = await Product.findById(req.params.id);
+  if(!product){
+    return res.status(404).json({
+      success :false,
+      message:"product not found"
+
+    })
+  }
+  product = await Product.findByIdAndUpdate(req.params.id,req.body,{
+    new:true,
+    runValidators:true,
+    UseFindAndModify:false
+  })
+  res.send(200).json({
+    success:true,
+    product
+  })
+
+}
