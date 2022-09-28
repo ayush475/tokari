@@ -1,4 +1,5 @@
 //const product = require('../models/product');
+const product = require("../models/product");
 const Product = require("../models/product");
 
 //create new products and test in api
@@ -43,10 +44,14 @@ exports.createnewproduct = (req, res, next) => {
     });
 };
 
-exports.getproducts = (req, res, next) => {
-  console.log("done");
+exports.getproducts = async (req, res, next) => {
+  const products = await product.find()
+console.log("done");
   res.status(200).json({
     success: true,
-    message: "this route is for testing purpose only",
+    count : products.length,
+     //message: "this route  shows all  products in database",
+    products
   });
 };
+
