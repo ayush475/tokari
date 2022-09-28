@@ -69,6 +69,7 @@ exports.getSingleProduct = async(req,res ,next)=>{
   //if (product){
     return res.status(200).json({
       success:true,
+      message:"product found and the details are :",
       product
     })
   //}
