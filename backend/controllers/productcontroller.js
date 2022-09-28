@@ -91,7 +91,7 @@ exports.updateProduct = async (req,res ,next) =>{
     runValidators:true,
     UseFindAndModify:false
   })
-  res.send(200).json({
+  res.status(200).json({
     success:true,
     product
   })
