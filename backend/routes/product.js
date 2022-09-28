@@ -8,7 +8,8 @@ const{getproducts, newproduct,getSingleProduct,updateProduct}=require('../contro
 router.route('/products').get(getproducts);
 router.route('/product/:id').get(getSingleProduct);
 router.route('/admin/product/new').post(newproduct);
-router.route('/admin/product/:id').put(updateProduct)
+router.route('/admin/product/:id').put(updateProduct);
+
 
 
 router.get('/products',getproducts);
