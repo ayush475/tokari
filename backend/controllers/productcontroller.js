@@ -1,5 +1,4 @@
-//const product = require('../models/product');
-const product = require("../models/product");
+//const Product = require("../models/product");
 const Product = require("../models/product");
 
 //create new products and test in api
@@ -35,7 +34,7 @@ exports.createnewproduct = (req, res, next) => {
     .then((product) => {
       res.status(201).json({
         success: true,
-        product,
+        product
       });
     })
     .catch((err) => {
@@ -45,13 +44,32 @@ exports.createnewproduct = (req, res, next) => {
 };
 
 exports.getproducts = async (req, res, next) => {
-  const products = await product.find()
+  const Products = await Product.find()
 console.log("done");
   res.status(200).json({
     success: true,
-    count : products.length,
+    count : Products.length,
      //message: "this route  shows all  products in database",
-    products
+    Products
   });
 };
+//now to get single products
+//using the product id 
+//just testing new features
+exports.getSingleProduct = async(req,res ,next)=>{
+  const product = await Product.findById(req.params.id);
 
+  if(!product){
+    return res.status(404).json({
+      success :false,
+      message:"product not found"
+
+    })
+  }
+  //if (product){
+    return res.status(200).json({
+      success:true,
+      product
+    })
+  //}
+}
