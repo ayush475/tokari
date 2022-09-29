@@ -3,7 +3,7 @@ const connectDatabase = require('./config/connectDatabase');
 const app = express();
 const dotenv=require('dotenv');
 const morgan=require('morgan');
-const errorMiddleware =require('./middlewares/error')
+const errorMiddleware =require('./middlewares/errors')
 
 
 //configuring enviroment variables

@@ -2,9 +2,9 @@
 //use  capital letter at beginning
 // i am very bad at commenting code so please neglect it
 class ErrorHandler extends Error{
-    constructor(message,errorCode){
+    constructor(message,statusCode){
         super(message);
-    this.statusCode =statusCode;
+    this.statusCode = statusCode;
     Error.captureStackTrace(this , this.constructor)
     }
 

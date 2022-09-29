@@ -60,7 +60,7 @@ console.log("done");
 exports.getSingleProduct = async(req,res ,next)=>{
   const product = await Product.findById(req.params.id);
 
-  if(!product){
+    /* if(!product){
    // return res.status(404).json({
    //   success :false,
      // message:"product not found"
@@ -68,7 +68,10 @@ exports.getSingleProduct = async(req,res ,next)=>{
     //}
     //)
     return next(new ErrorHandler('product not found',404));
-  }
+       }*/
+       if (!product) {
+        return next(new ErrorHandler('Product not found', 404));
+    }
   //if (product){
     return res.status(200).json({
       success:true,
@@ -77,6 +80,8 @@ exports.getSingleProduct = async(req,res ,next)=>{
     })
   //}
 }
+
+
 //now to update products from admin 
 //this might need to be updated later
 //generic features of e-commerce websites
