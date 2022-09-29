@@ -24,9 +24,9 @@ module.exports =(err,req,res,next)=>{
             stack :err.stack
         })
     }
-    res.status(err.statusCode).json({
+    /*res.status(err.statusCode).json({
         success: false,
         error:err.stack
-    })
+    })*/
 
 }
