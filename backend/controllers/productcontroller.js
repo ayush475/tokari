@@ -1,5 +1,6 @@
 //const Product = require("../models/product");
 const Product = require("../models/product");
+const ErrorHandler =require('../utils/errorHandler');
 
 //create new products and test in api
 exports.newproduct = async (req, res, next) => {

@@ -3,6 +3,7 @@ const connectDatabase = require('./config/connectDatabase');
 const app = express();
 const dotenv=require('dotenv');
 const morgan=require('morgan');
+const errorMiddleware =require('./middlewares/error')
 
 
 //configuring enviroment variables
@@ -19,6 +20,9 @@ connectDatabase();
 //import all routes
 const productRoutes =require('./routes/product');
 app.use('/',productRoutes);
+
+//errorhandler ko lagi
+app.use(errorMiddleware);
 
 // app.get('/',(req,res)=>{
 // res.json({mm:"kkkk"});
