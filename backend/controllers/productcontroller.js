@@ -14,7 +14,7 @@ exports.newproduct = catchAsyncErrors( async (req, res, next) => {
 })
 
 // using try catch
-exports.createnewproductwithtry = async (req, res, next) => {
+exports.createnewproductwithtry =catchAsyncErrors(  async (req, res, next) => {
   try {
     const product = await Product.create(req.body);
     if (!product) {
@@ -28,7 +28,7 @@ exports.createnewproductwithtry = async (req, res, next) => {
     console.log(err);
     return err;
   }
-};
+})
 
 // using promise
 exports.createnewproduct = (req, res, next) => {
@@ -45,7 +45,7 @@ exports.createnewproduct = (req, res, next) => {
     });
 };
 
-exports.getproducts = async (req, res, next) => {
+exports.getproducts =catchAsyncErrors(  async (req, res, next) => {
   const Products = await Product.find()
 console.log("done");
   res.status(200).json({
@@ -54,11 +54,11 @@ console.log("done");
      //message: "this route  shows all  products in database",
     Products
   });
-};
+})
 //now to get single products
 //using the product id 
 //just testing new features
-exports.getSingleProduct = async(req,res ,next)=>{
+exports.getSingleProduct = catchAsyncErrors(async(req,res ,next)=>{
   const product = await Product.findById(req.params.id);
 
     /* if(!product){
@@ -80,13 +80,13 @@ exports.getSingleProduct = async(req,res ,next)=>{
       product
     })
   //}
-}
+})
 
 
 //now to update products from admin 
 //this might need to be updated later
 //generic features of e-commerce websites
-exports.updateProduct = async (req,res ,next) =>{
+exports.updateProduct = catchAsyncErrors(async (req,res ,next) =>{
  let product = await Product.findById(req.params.id);
   if(!product){
     return res.status(404).json({
@@ -105,10 +105,10 @@ exports.updateProduct = async (req,res ,next) =>{
     product
   })
 
-}
+})
 // now deleting product
 //admin routes
-exports.deleteProduct = async(req,res,next)=>{
+exports.deleteProduct =catchAsyncErrors(async(req,res,next)=>{
   const product = await Product.findById(req.params.id);
   if(!product){
     return res.status(404).json({
@@ -123,4 +123,4 @@ exports.deleteProduct = async(req,res,next)=>{
     message:"product deleted successfully"
    })
 
-}
+})
