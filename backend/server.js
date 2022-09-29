@@ -4,6 +4,7 @@ const server = app.listen(process.env.PORT, function(err){
 	if (err) console.log("Error in server setup")
 	console.log("Server listening on Port",process.env.PORT);
 })
+//to test unhandled promise rejection just change any default values like change  the  string in config.env
 process.on('unhandledRejection',err=>{
 	
 	console.log('ERROR :'+err.message);//choose this for short info
