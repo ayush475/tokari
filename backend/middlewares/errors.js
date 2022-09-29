@@ -14,8 +14,18 @@ module.exports =(err,req,res,next)=>{
     }
     //if we set the process to production
     if (process.env.NODE_ENV ==='PRODUCTION'){
-        let error ={...err}
-        error.message=err.message
+        let error ={ ...err}
+        error.message = err.message;
+        //mongodb error checker
+        //hope it works
+        //wrong db ID
+        
+        if (err.name ==="CastError"){
+            const message ="resource not found . invalid "+err.path
+
+            error = new ErrorHandler(message,400)
+        }
+
 
         res.status(err.statusCode).json({
             success:false,

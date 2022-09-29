@@ -8,7 +8,7 @@ const server = app.listen(process.env.PORT, function(err){
 process.on('unhandledRejection',err=>{
 	
 	console.log('ERROR :'+err.message);//choose this for short info
-	console.log('ERROR :'+err.stack);// choose this for complete  error info
+	//console.log('ERROR :'+err.stack);// choose this for complete  error info
 	console.log(' shutting down server because unable to  handle promises rejections');
 	server.close(()=>{
 		process.exit(1);
@@ -21,7 +21,7 @@ process.on('unhandledRejection',err=>{
 
 process.on('uncaughtException',err=>{
 	console.log('Error:'+err.message);//choose this for short info
-	console.log('ERROR :'+err.stack); // choose this for complete  error info
+	//console.log('ERROR :'+err.stack); // choose this for complete  error info
 	console.log("shutting down server due to uncaught exception");
 	process.exit(1)
 })
