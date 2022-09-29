@@ -89,11 +89,14 @@ exports.getSingleProduct = catchAsyncErrors(async(req,res ,next)=>{
 exports.updateProduct = catchAsyncErrors(async (req,res ,next) =>{
  let product = await Product.findById(req.params.id);
   if(!product){
-    return res.status(404).json({
+   
+      return next(new ErrorHandler('Product not found', 404));
+    /*return res.status(404).json({
       success :false,
       message:"product not found"
 
     })
+    */
   }
   product = await Product.findByIdAndUpdate(req.params.id,req.body,{
     new:true,
@@ -111,11 +114,13 @@ exports.updateProduct = catchAsyncErrors(async (req,res ,next) =>{
 exports.deleteProduct =catchAsyncErrors(async(req,res,next)=>{
   const product = await Product.findById(req.params.id);
   if(!product){
-    return res.status(404).json({
+    return next(new ErrorHandler('Product not found', 404));
+
+    /*return res.status(404).json({
       success :false,
       message:"product not found"
 
-    })
+    }) */
   }
    await product.remove();
    res.status(200).json({
