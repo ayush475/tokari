@@ -7,7 +7,7 @@ const server = app.listen(process.env.PORT, function(err){
 //to test unhandled promise rejection just change any default values like change  the  string in config.env
 process.on('unhandledRejection',err=>{
 	
-	console.log('ERROR :'+err.message);//choose this for short info
+	console.log('ERROR :',err.message);//choose this for short info
 	//console.log('ERROR :'+err.stack);// choose this for complete  error info
 	console.log(' shutting down server because unable to  handle promises rejections');
 	server.close(()=>{
@@ -20,8 +20,8 @@ process.on('unhandledRejection',err=>{
 //oh god i hope this works
 
 process.on('uncaughtException',err=>{
-	console.log('Error:'+err.message);//choose this for short info
-	//console.log('ERROR :'+err.stack); // choose this for complete  error info
+	console.log('Error:',err.message);//choose this for short info
+	console.log('ERROR :',err.stack); // choose this for complete  error info
 	console.log("shutting down server due to uncaught exception");
 	process.exit(1)
 })

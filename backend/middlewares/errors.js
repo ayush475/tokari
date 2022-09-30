@@ -1,15 +1,15 @@
 const ErrorHandler =require('../utils/errorHandler');
 
 module.exports =(err,req,res,next)=>{
-    console.log("fkfkfkfkkfkf");
+   // console.log("fkfkfkfkkfkf");
     err.statusCode = err.statusCode || 500;
     //statuscode 500 => internal server error 
     //err.message= err.message || ' 500 internal server error';
-    console.log("ddddddddddddddd");
+    //console.log("ddddddddddddddd");
     if (process.env.NODE_ENV ==='DEVELOPMENT'){
 
         if (err.name ==="CastError"){
-            console.log("done");
+           // console.log("done");
             const message ="resource not found . invalid "+err.path
 
             err = new ErrorHandler(message,400)
@@ -30,7 +30,7 @@ module.exports =(err,req,res,next)=>{
         //wrong db ID
         
         if (err.name ==="CastError"){
-            console.log("done");
+           // console.log("done");
             const message ="resource not found . invalid "+err.path
 
             err = new ErrorHandler(message,400)
