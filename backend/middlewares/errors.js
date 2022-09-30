@@ -35,6 +35,15 @@ module.exports =(err,req,res,next)=>{
 
             err = new ErrorHandler(message,400)
         }
+        //type-error still exists
+        //need to update that in later
+        //jagadish bro le  update garxa natra ma aafai garchu
+        //now  handling validation error
+        if (err.name ==="ValidationErrorrs"){
+            const message = Object.values(err.errors).map(value=>
+                value.message);
+            error = new ErrorHandler(message,400)
+        }
 
 
         res.status(err.statusCode).json({
