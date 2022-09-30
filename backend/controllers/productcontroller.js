@@ -6,7 +6,7 @@ const APIFeatures =require('../utils/apiFeatures');
 
 //create new products and test in api
 exports.newproduct = catchAsyncErrors(async (req, res, next) => {
- 
+  
   const product = await Product.create(req.body);
 
   res.status(201).json({
@@ -48,18 +48,24 @@ exports.createnewproduct = (req, res, next) => {
 };
 
 exports.getproducts = catchAsyncErrors(async (req, res, next) => {
+
+  const resPerPage =5;
+  //productcount is to be used in  frontend
+  //remember this please
+  
+  const productCount = await Product.countDocuments();
+
   const apiFeatures = new APIFeatures(Product.find(),req.query)
-  .search()
-          
-
-
-
-  const Products = await apiFeatures.query;
+ //implementing search , filter and pagination 
+ //i don't know much about  pagenation but hope this works
+ // this code  is working as  required on  friday 30 september 2022 10:58 PM
+  .search() .filter() .pagination(resPerPage)
+          const Products = await apiFeatures.query;
   console.log("done");
   res.status(200).json({
     success: true,
     count: Products.length,
-    //message: "this route  shows all  products in database",
+    message: "this route  shows all  products in database",
     Products,
   });
 });
