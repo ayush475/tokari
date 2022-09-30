@@ -19,10 +19,13 @@ connectDatabase();
 
 //import all routes
 const productRoutes =require('./routes/product');
+
+
 app.use('/',productRoutes);
 
 //errorhandler ko lagi
 app.use(errorMiddleware);
+
 
 // app.get('/',(req,res)=>{
 // res.json({mm:"kkkk"});
