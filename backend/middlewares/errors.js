@@ -7,6 +7,7 @@ module.exports =(err,req,res,next)=>{
     //err.message= err.message || ' 500 internal server error';
     //console.log("ddddddddddddddd");
     if (process.env.NODE_ENV ==='DEVELOPMENT'){
+        console.log(err);
 
         if (err.name ==="CastError"){
            // console.log("done");
@@ -23,7 +24,7 @@ module.exports =(err,req,res,next)=>{
     }
     //if we set the process to production
     if (process.env.NODE_ENV ==='PRODUCTION'){
-        let err ={ ...err}
+        let error ={ ...err}
         err.message = err.message;
         //mongodb error checker
         //hope it works
@@ -36,7 +37,7 @@ module.exports =(err,req,res,next)=>{
             err = new ErrorHandler(message,400)
         }
         //type-error still exists
-        //need to update that in later
+        //need to update that in later 
         //jagadish bro le  update garxa natra ma aafai garchu
         //now  handling validation error
         if (err.name ==="ValidationErrorrs"){

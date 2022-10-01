@@ -19,9 +19,12 @@ connectDatabase();
 
 //import all routes
 const productRoutes =require('./routes/product');
+//for auth
+const auth = require('./routes/auth');
 
 
 app.use('/',productRoutes);
+app.use('/', auth);
 
 //errorhandler ko lagi
 app.use(errorMiddleware);
