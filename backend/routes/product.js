@@ -9,7 +9,7 @@ const{
 const{ isAuthenticatedUser,authorizeRoles }=require('../middlewares/auth');
 
 
-router.route('/products').get(authorizeRoles("admin"),getproducts);// if we add isAuthenticated here only logged in users can get the result , let's not make that
+router.route('/products').get(isAuthenticatedUser,getproducts);// if we add isAuthenticated here only logged in users can get the result , let's not make that
 router.route('/product/:id').get(getSingleProduct);
 //only authenticated can post and put
 router.route('/admin/product/new').post(isAuthenticatedUser,authorizeRoles("admin"),newproduct);

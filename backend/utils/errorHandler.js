@@ -1,16 +1,10 @@
-//error handler class
-//use  capital letter at beginning
-// i am very bad at commenting code so please neglect it
-class ErrorHandler extends Error {
-    constructor(message, statusCode) {
+class ErrorHandler extends Error{
+    constructor(message,statusCode){
         super(message);
-        this.statusCode = statusCode
-
-        Error.captureStackTrace(this, this.constructor)
+        this.statusCode=statusCode;
+        this.name=message.name;
+        Error.captureStackTrace(this,this.constructor);
     }
 }
 
-
-
-//export the error handler
-module.exports =ErrorHandler;
+module.exports=ErrorHandler;

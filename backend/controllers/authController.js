@@ -40,7 +40,9 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findOne({ email }).select('+password')
 
     if (!user) {
-        return next(new ErrorHandler('Invalid Email or Password', 401));
+        console.log("ddddno");
+       
+        return next(new ErrorHandler('user doesnot exist', 401));
     }
       
 
@@ -50,7 +52,8 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     // function defined
     //now check
     if (!isPasswordMatched) {
-        return next(new ErrorHandler('Invalid Email or Password', 401));
+        console.log("dddd5555");
+        return next(new ErrorHandler('Invalid Email or Password', 402));
     }
 
     sendToken(user, 200, res)
@@ -60,6 +63,8 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         token
     })*/
 })
+
+
 exports.logout=catchAsyncErrors(async(req,res,next)=>{
     res.cookie('token',null,{
         expires:new Date(Date.now()),
