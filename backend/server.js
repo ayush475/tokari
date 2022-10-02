@@ -1,4 +1,5 @@
 var app = require('./app');
+
 //defined server
 const server = app.listen(process.env.PORT, function(err){
 	if (err) console.log("Error in server setup")

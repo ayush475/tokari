@@ -3,8 +3,14 @@ const connectDatabase = require('./config/connectDatabase');
 const app = express();
 const dotenv=require('dotenv');
 const morgan=require('morgan');
-const errorMiddleware =require('./middlewares/errors')
+const errorMiddleware =require('./middlewares/errors');
+const cookieParser = require('cookie-parser')
 
+//now use cookie-parser
+//remember to use express.json()  before cookieparser
+//this is the rule
+app.use(express.json());
+app.use(cookieParser());
 
 //configuring enviroment variables
 dotenv.config({path:'./backend/config/config.env'});
@@ -13,7 +19,7 @@ dotenv.config({path:'./backend/config/config.env'});
 app.use(morgan('tiny'));
 
 
-app.use(express.json());
+
 // console.log("app");
 connectDatabase();
 
@@ -30,7 +36,7 @@ app.use('/', auth);
 app.use(errorMiddleware);
 
 
-// app.get('/',(req,res)=>{
-// res.json({mm:"kkkk"});
-// })
+
+
+
 module.exports=app;

@@ -6,8 +6,10 @@ const{
     getproducts, newproduct,getSingleProduct,updateProduct,deleteProduct
 }=require('../controllers/productcontroller')
 
+const{ isAuthenticatedUser }=require('../middlewares/auth');
 
-router.route('/products').get(getproducts);
+
+router.route('/products').get(isAuthenticatedUser,getproducts);
 router.route('/product/:id').get(getSingleProduct);
 router.route('/admin/product/new').post(newproduct);
 router.route('/admin/product/:id').put(updateProduct);
