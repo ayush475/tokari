@@ -4,6 +4,9 @@ const validator = require('validator');
 const bcrypt =require('bcryptjs');
 //importing jason web token 
 const jwt =require('jsonwebtoken');
+//for password token
+const crypto =require('crypto');
+//const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 
 
 const userSchema = new mongoose.Schema({
@@ -71,6 +74,24 @@ userSchema.methods.getJwtToken = function (){
         expiresIn:process.env.JWT_EXPIRES_TIME
     })
 }
+
+userSchema.methods.getResetPasswordToken = function () {
+    // Generate token
+    //password reset  ko token ....crypto le dinxa
+//so let's decide a function
+    const resetToken = crypto.randomBytes(20).toString('hex');
+//now secons step
+    // Hash and set to resetPasswordToken
+    this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+
+    //we need to set token expiry time
+//ahh smart 
+    this.resetPasswordExpire = Date.now() + 30 * 60 * 1000
+
+    return resetToken
+
+}
+
 
 
 

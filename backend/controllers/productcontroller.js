@@ -6,6 +6,8 @@ const APIFeatures =require('../utils/apiFeatures');
 
 //create new products and test in api
 exports.newproduct = catchAsyncErrors(async (req, res, next) => {
+  //user  lai add gareko
+  req.body.user =req.user.id;
   
   const product = await Product.create(req.body);
 
@@ -26,7 +28,8 @@ exports.createnewproductwithtry = catchAsyncErrors(async (req, res, next) => {
       success: true,
       product,
     });
-  } catch (err) {
+  } 
+  catch (err) {
     console.log(err);
     return err;
   }

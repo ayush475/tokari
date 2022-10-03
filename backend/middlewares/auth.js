@@ -11,7 +11,7 @@ const catchAsyncErrors = require("./catchAsyncErrors");
 exports.isAuthenticatedUser = async (req, res, next) => {
 
     const { token } = req.cookies;
-    console.log(token,"mmmmmmm");
+    //console.log(token,"mmmmmmm");
      //console.log(`your required token is ${token}`);
 
     if (!token) {
@@ -30,7 +30,7 @@ exports.isAuthenticatedUser = async (req, res, next) => {
     // but need to work on this later on 
     // remember to work on this
 try {
-    const decoded = await jwt.verify(token, process.env.JWT_SECRET); 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); //removed await because it has no effect
     req.user = await User.findById(decoded.id);
 
     next()
@@ -40,6 +40,8 @@ try {
     throw(err);
 }
 }
+//i need to learn more about  try catch and throw
+//sed
     
   
 
