@@ -5,6 +5,7 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const crypto =require('crypto');
+const bcrypt=require('bcryptjs');
 const { send } = require('process');
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -43,7 +44,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 
     if (!user) {
         //to check if the code is working or not
-     console.log("Ayush don");
+    // console.log("Ayush don");
        
         return next(new ErrorHandler('user doesnot exist', 401));
     }
@@ -153,40 +154,48 @@ exports.getUserProfile =catchAsyncErrors(async(req,res,next)=>{
 })
 //user le aafi password update garna milxa
 
-exports.updatePassword =catchAsyncErrors(
-    async(req,res,next)=>{
 
-try{
-    const user = await User.findById(req.user.id).select('+password')
-    //old password pani thah huna paryo ni haina ta
-    //lol
+  exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
+    console.log(req.body);
+    const user = await User.findById(req.user.id).select('+password');
+
+    // Check old password
+    const oldPassword =req.body.oldPassword
    
-    const isMatched =await user.comparePassword(req.body.oldPassword);
-
-    if(!isMatched){
-        //console.log(" I am running right");
-       console.log("i am inside try");
-       // return next(new ErrorHandler('oldPassword does not match', 400));
-       
+    const isTrue = await user.comparePassword(oldPassword)
+    console.log(user);
+    if (!isTrue) {
+        console.log('test2');
+        return next(new ErrorHandler('Old password is incorrect',400));
     }
-    
-    
-    user.password=req.body.password;
-    
-     await user.save();
-    //console.log(" 4.I am running right");
-    sendToken(user,200,res)
-    //console.log(" 5.I am running right");
-}
+    console.log('test3')
 
-catch(err){
-    console.log("ERROR :",err);
-    return err;
-}
+    user.password = req.body.newpassword;
+    console.log('test4');
+    await user.save();
+    console.log('test5');
+    sendToken(user, 200, res);
+    next()
 
 })
-
-
+//protip : sometimes changing variables can make   things work
+//updating uer profile is required too
+exports.updateProfile =catchAsyncErrors(async(req,res,next)=>{
+    const newUserData ={
+        name:req.body.name,
+        email:req.body.email
+    }
+    const user= await User.findByIdAndUpdate(req.user.id , newUserData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:true
+    })
+    res.status(200).json({
+        success:true,
+        message:"user info updated"
+    })
+})
+  
 exports.logout=catchAsyncErrors(async(req,res,next)=>{
     res.cookie('token',null,{
         expires:new Date(Date.now()),
@@ -197,4 +206,57 @@ exports.logout=catchAsyncErrors(async(req,res,next)=>{
         message:"user logged-out successfully"
     })
 })
+//let's find the total number of users
+//let's make this route only accessible to admins
+//http://localhost:4000/admin/allusers
+exports.allUsers=catchAsyncErrors(async(req,res,next)=>{
+    const users = await User.find();
+    res.status(200).json({
+        success:true,
+        users
+    })
+})
+exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
 
+    if (!user) {
+        return next(new ErrorHandler(`User does not found with id: ${req.params.id}`))
+    }
+
+    res.status(200).json({
+        success: true,
+        user
+    })
+})
+
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+        return next(new ErrorHandler(`User does not found with id: ${req.params.id}`))
+    }
+    await user.remove();
+
+    res.status(200).json({
+        success: true,
+        
+    })
+})
+exports.updateUser =catchAsyncErrors(async(req,res,next)=>{
+    const newUserData ={
+        name:req.body.name,
+        email:req.body.email,
+        role:req.body.role
+    }
+    const user= await User.findByIdAndUpdate(req.params.id , newUserData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:true
+    })
+    res.status(200).json({
+        success:true,
+        message:"user info updated"
+    })
+})
+
+//let's  give the admin permisiion to delete the user
