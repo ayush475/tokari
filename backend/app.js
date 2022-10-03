@@ -27,12 +27,12 @@ connectDatabase();
 const productRoutes =require('./routes/product');
 //for auth
 const auth = require('./routes/auth');
-const order = require('./models/order');
+//const order = require('./models/order');
 
 
 app.use('/',productRoutes);
 app.use('/', auth);
-app.use('/', order);
+//app.use('/', order);
 //errorhandler ko lagi
 app.use(errorMiddleware);
 
