@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 const{
-    getproducts, newproduct,getSingleProduct,updateProduct,deleteProduct
+    getproducts, newproduct,getSingleProduct,updateProduct,deleteProduct, createProductReview, getProductReviews, deleteReview
 }=require('../controllers/productcontroller')
 
 const{ isAuthenticatedUser,authorizeRoles }=require('../middlewares/auth');
@@ -17,11 +17,12 @@ router.route('/admin/product/:id').put(isAuthenticatedUser,authorizeRoles("admin
 // we can keep the .delete  combined with update product too
 
 router.route('/admin/product/:id').delete(isAuthenticatedUser,authorizeRoles("admin"),deleteProduct);
+router.route('/review').put(isAuthenticatedUser,createProductReview);
+router.route('/reviews').get(isAuthenticatedUser,getProductReviews);
+router.route('/reviews').delete(isAuthenticatedUser,deleteReview);
 
 
 
-
-router.get('/products',getproducts);
 
 module.exports=router;
 
