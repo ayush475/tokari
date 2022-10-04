@@ -2,13 +2,13 @@
 const Product = require("../models/product");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
-const APIFeatures =require('../utils/apiFeatures');
+const APIFeatures = require("../utils/apiFeatures");
 
 //create new products and test in api
 exports.newproduct = catchAsyncErrors(async (req, res, next) => {
   //user  lai add gareko
-  req.body.user =req.user.id;
-  
+  req.body.user = req.user.id;
+
   const product = await Product.create(req.body);
 
   res.status(201).json({
@@ -28,8 +28,7 @@ exports.createnewproductwithtry = catchAsyncErrors(async (req, res, next) => {
       success: true,
       product,
     });
-  } 
-  catch (err) {
+  } catch (err) {
     console.log(err);
     return err;
   }
@@ -51,19 +50,20 @@ exports.createnewproduct = (req, res, next) => {
 };
 
 exports.getproducts = catchAsyncErrors(async (req, res, next) => {
-
-  const resPerPage =5;
+  const resPerPage = 5;
   //productcount is to be used in  frontend
   //remember this please
-  
+
   const productCount = await Product.countDocuments();
 
-  const apiFeatures = new APIFeatures(Product.find(),req.query)
- //implementing search , filter and pagination 
- //i don't know much about  pagenation but hope this works
- // this code  is working as  required on  friday 30 september 2022 10:58 PM
-  .search() .filter() .pagination(resPerPage)
-          const Products = await apiFeatures.query;
+  const apiFeatures = new APIFeatures(Product.find(), req.query)
+    //implementing search , filter and pagination
+    //i don't know much about  pagenation but hope this works
+    // this code  is working as  required on  friday 30 september 2022 10:58 PM
+    .search()
+    .filter()
+    .pagination(resPerPage);
+  const Products = await apiFeatures.query;
   console.log("done");
   res.status(200).json({
     success: true,
@@ -91,7 +91,7 @@ exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
   console.log(!product);
   if (!product) {
     console.log("produ");
-    return next(new ErrorHandler("product not found",404));
+    return next(new ErrorHandler("product not found", 404));
   }
 
   return res.status(200).json({
@@ -147,60 +147,89 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
 });
 //now let'add some reviews
 exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
-
   const { rating, comment, productId } = req.body;
 
   const review = {
-      user: req.user._id,
-      name: req.user.name,
-      rating: Number(rating),
-      comment
-  }
+    user: req.user._id,
+    name: req.user.name,
+    rating: Number(rating),
+    comment,
+  };
   //"error": "Cannot read properties of null (reading 'reviews')"
   // this type of error is when you don't provide json in correct format
 
   const product = await Product.findById(productId);
 
   const isReviewed = product.reviews.find(
-      r => r.user.toString() === req.user._id.toString()
-  )
+    (r) => r.user.toString() === req.user._id.toString()
+  );
 
   if (isReviewed) {
-      product.reviews.forEach(review => {
-          if (review.user.toString() === req.user._id.toString()) {
-              review.comment = comment;
-              review.rating = rating;
-          }
-      })
-
+    product.reviews.forEach((review) => {
+      if (review.user.toString() === req.user._id.toString()) {
+        review.comment = comment;
+        review.rating = rating;
+      }
+    });
   } else {
-      product.reviews.push(review);
-      product.numOfReviews = product.reviews.length
+    product.reviews.push(review);
+    product.numOfReviews = product.reviews.length;
   }
 
-  product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length
+  product.ratings =
+    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    product.reviews.length;
 
   await product.save({ validateBeforeSave: false });
 
   res.status(200).json({
-      success: true
-  })
-
-})
+    success: true,
+  });
+});
 exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.query.id);
 
   res.status(200).json({
-      success: true,
-      reviews: product.reviews
-  })
-})
+    success: true,
+    reviews: product.reviews,
+  });
+});
 //deleting the review
 //using productid and reviewid
 //sakiyo aba ta
 //ekchin lai vaye ni
-exports.deleteReview = catchAsyncErrors(
-  async(req, res, next) => {
-    //I have no idea about this
-})
+exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
+  console.log(req.body.productId);
+  //I have no idea about this
 
+  let product = await Product.findById(req.body.productId);
+  console.log(product);
+  let ratingAvg = 0;
+  if (!product) {
+    return next(new ErrorHandler("product not found", 404));
+  }
+
+ 
+
+  product.reviews = await product.reviews.filter(
+    (obj) => obj.user.valueOf().toString() != req.body.reviewUserId.toString()
+  );
+  product.reviews.forEach((obj) => {
+    ratingAvg += obj.rating;
+  });
+
+  product.numOfReviews=ratingAvg;
+
+  // console.log(product.reviews);
+ await product.save((err) => {
+  if(err){
+    console.log(err);
+    next(new ErrorHandler(err,404));
+  }
+  // console.log(product.reviews,"llll");
+  // console.log(product);
+    return res
+      .status(200)
+      .json({ sucess: true, message: "review deleted sucessfully" });
+  });
+});
