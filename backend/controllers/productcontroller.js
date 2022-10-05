@@ -211,7 +211,7 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 
  
 
-  product.reviews = await product.reviews.filter(
+  product.reviews = product.reviews.filter( // removed await
     (obj) => obj.user.valueOf().toString() != req.body.reviewUserId.toString()
   );
   product.reviews.forEach((obj) => {
@@ -221,15 +221,16 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
   product.numOfReviews=ratingAvg;
 
   // console.log(product.reviews);
- await product.save((err) => {
+  product.save((err) => { // removed await
   if(err){
     console.log(err);
     next(new ErrorHandler(err,404));
   }
   // console.log(product.reviews,"llll");
   // console.log(product);
-    return res
-      .status(200)
-      .json({ sucess: true, message: "review deleted sucessfully" });
+    return res.status(200).json({
+     sucess: true,
+     message: "review deleted sucessfully" 
+    });
   });
 });
